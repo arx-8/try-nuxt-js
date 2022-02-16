@@ -5,8 +5,8 @@
  */
 const config = {
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
-    '^~/(.*)$': '<rootDir>/$1',
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '^~/(.*)$': '<rootDir>/src/$1',
     '^vue$': 'vue/dist/vue.common.js',
   },
   moduleFileExtensions: ['ts', 'js', 'vue', 'json'],
@@ -17,8 +17,8 @@ const config = {
   },
   collectCoverage: true,
   collectCoverageFrom: [
-    '<rootDir>/components/**/*.vue',
-    '<rootDir>/pages/**/*.vue',
+    '<rootDir>/src/components/**/*.vue',
+    '<rootDir>/src/pages/**/*.vue',
   ],
   testEnvironment: 'jsdom',
 }
