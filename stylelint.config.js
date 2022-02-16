@@ -1,4 +1,9 @@
-module.exports = {
+// @ts-check
+
+/**
+ * @type {import('stylelint').Config}
+ */
+const config = {
   customSyntax: 'postcss-html',
   extends: [
     'stylelint-config-standard',
@@ -9,3 +14,5 @@ module.exports = {
   // https://stylelint.io/user-guide/configuration
   rules: {},
 }
+
+module.exports = config

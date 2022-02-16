@@ -1,4 +1,9 @@
-module.exports = {
+// @ts-check
+
+/**
+ * @type {import('eslint').Linter.Config}
+ */
+const config = {
   root: true,
   env: {
     browser: true,
@@ -13,3 +18,5 @@ module.exports = {
   // add your custom rules here
   rules: {},
 }
+
+module.exports = config

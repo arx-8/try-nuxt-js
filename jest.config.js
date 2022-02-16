@@ -1,4 +1,9 @@
-module.exports = {
+// @ts-check
+
+/**
+ * @type {import('@jest/types').Config.InitialOptions}
+ */
+const config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
     '^~/(.*)$': '<rootDir>/$1',
@@ -17,3 +22,5 @@ module.exports = {
   ],
   testEnvironment: 'jsdom',
 }
+
+module.exports = config
