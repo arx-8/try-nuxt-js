@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "16.x",
-    "npm": "0.x",
-    "yarn": "1.x"
+    "node": "^12 || ^16",
+    "npm": "0",
+    "yarn": "^1"
   },
   "scripts": {
     "build": "nuxt build",
