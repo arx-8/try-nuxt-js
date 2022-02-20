@@ -88,3 +88,10 @@ sw.*
 
 # Vim swap files
 *.swp
+
+# temp files
+tsconfig.tsbuildinfo
+
+# misc
+misc/*
+!misc/.gitkeep
