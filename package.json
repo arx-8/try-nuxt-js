@@ -8,27 +8,24 @@
     "yarn": "1.x"
   },
   "scripts": {
-    "dev": "nuxt",
     "build": "nuxt build",
+    "dev": "nuxt",
     "eslint-print-config": "eslint --print-config src/index.tsx > misc/eslint-print-config.json",
-    "start": "nuxt start",
     "generate": "nuxt generate",
     "lint:js": "eslint --ext \".js,.ts,.vue\" --max-warnings=0 --ignore-path .gitignore .",
-    "lint:style": "stylelint \"**/*.{css,scss,sass,html,vue}\" --ignore-path .gitignore",
     "lint:prettier": "prettier --check .",
+    "lint:style": "stylelint \"**/*.{css,scss,sass,html,vue}\" --ignore-path .gitignore",
     "lint:tsc": "tsc --noEmit",
     "lint": "yarn lint:js && yarn lint:tsc && yarn lint:style && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:tsc && yarn lint:js --fix && yarn lint:style --fix",
+    "start": "nuxt generate && nuxt start",
     "test": "jest",
     "update-all": "npx --yes npm-check-updates@12.3.0 -u --reject \"/^(nuxt|vue|webpack|@nuxt/types)$/\""
   },
   "dependencies": {
-    "core-js": "3.21.0",
     "nuxt": "2.15.8",
     "vue": "2.6.14",
-    "vue-server-renderer": "2.6.14",
-    "vue-template-compiler": "2.6.14",
-    "webpack": "4.46.0"
+    "vue-server-renderer": "2.6.14"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.17.0",
@@ -41,6 +38,7 @@
     "@vue/test-utils": "1.3.0",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "27.5.1",
+    "core-js": "3.21.0",
     "eslint": "8.9.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-nuxt": "3.1.0",
@@ -58,6 +56,8 @@
     "stylelint-config-recommended-vue": "1.3.0",
     "stylelint-config-standard": "25.0.0",
     "ts-jest": "27.1.3",
-    "vue-jest": "3.0.7"
+    "vue-jest": "3.0.7",
+    "vue-template-compiler": "2.6.14",
+    "webpack": "4.46.0"
   }
 }
