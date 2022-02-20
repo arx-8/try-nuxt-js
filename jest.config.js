@@ -4,7 +4,6 @@
  * @type {import('@jest/types').Config.InitialOptions}
  */
 const config = {
-  collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/src/components/**/*.vue',
     '<rootDir>/src/pages/**/*.vue',

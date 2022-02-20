@@ -41,6 +41,7 @@ const config = {
     ],
     '@typescript-eslint/no-explicit-any': 2,
     '@typescript-eslint/no-misused-promises': 2,
+    '@typescript-eslint/no-useless-constructor': 2,
     '@typescript-eslint/prefer-readonly': 2,
     '@typescript-eslint/require-await': 2,
     camelcase: 0,
@@ -56,6 +57,8 @@ const config = {
         selector: 'TSEnumDeclaration',
       },
     ],
+    // note you must disable the base rule as it can report incorrect errors
+    'no-useless-constructor': 0,
     'prefer-template': 2,
     'require-await': 0,
     'sort-destructure-keys/sort-destructure-keys': 2,
