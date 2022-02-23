@@ -19,6 +19,12 @@
       <div>
         <ul>
           <li v-for="(todo, i) in todoList" :key="todo.id">
+            <button
+              class="delete-button"
+              @click.stop.prevent="onClickDelete(i)"
+            >
+              X
+            </button>
             <label class="todo-line" @click.stop.prevent="onClickTodo(i)">
               <!-- `@click.stop=""` is workaround. Without this, when user click on the checkbox, the check status will be wrong. -->
               <input
@@ -55,6 +61,7 @@ type Data = {
 
 type Methods = {
   onAddTodo: (e: KeyboardEvent) => void
+  onClickDelete: (index: number) => void
   onClickTodo: (index: number) => void
 }
 
@@ -98,6 +105,9 @@ export default Vue.extend<Data, Methods, Computed>({
       })
       this.taskName = ''
     },
+    onClickDelete(index) {
+      this.todoList = this.todoList.filter((_, i) => i !== index)
+    },
     onClickTodo(index) {
       const todo = this.todoList[index]
       if (todo != null) {
@@ -128,6 +138,18 @@ li:not(:first-child) {
 .todo-line:hover {
   cursor: pointer;
   opacity: 0.6;
+}
+
+.delete-button {
+  background: unset;
+  border: 1px solid;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.delete-button:hover {
+  cursor: pointer;
+  background: pink;
 }
 
 .done {
