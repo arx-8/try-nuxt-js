@@ -19,7 +19,7 @@ const config = {
   components: true,
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['normalize.css', '~/styles/global.css'],
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
