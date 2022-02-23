@@ -16,9 +16,32 @@
           @keydown.enter="onAddTodo"
         />
       </div>
-      <div>
+      <div class="actions">
+        <button
+          class="filter-button"
+          :disabled="filter === 'all'"
+          @click.stop.prevent="onClickFilter('all')"
+        >
+          ALL
+        </button>
+        <button
+          class="filter-button"
+          :disabled="filter === 'todo'"
+          @click.stop.prevent="onClickFilter('todo')"
+        >
+          TODO
+        </button>
+        <button
+          class="filter-button"
+          :disabled="filter === 'done'"
+          @click.stop.prevent="onClickFilter('done')"
+        >
+          DONE
+        </button>
+      </div>
+      <div class="todo-list">
         <ul>
-          <li v-for="(todo, i) in todoList" :key="todo.id">
+          <li v-for="(todo, i) in filteredTodoList" :key="todo.id">
             <button
               class="delete-button"
               @click.stop.prevent="onClickDelete(i)"
@@ -46,7 +69,9 @@
 
 <script lang="ts">
 /* eslint-disable sort-keys-fix/sort-keys-fix */
+// organize-imports-ignore
 import Vue from 'vue'
+import { assertNever } from '@/types/utils'
 
 type Todo = {
   done: boolean
@@ -54,7 +79,10 @@ type Todo = {
   taskName: string
 }
 
+type Filter = 'all' | 'todo' | 'done'
+
 type Data = {
+  filter: Filter
   taskName: string
   todoList: Todo[]
 }
@@ -62,17 +90,19 @@ type Data = {
 type Methods = {
   onAddTodo: (e: KeyboardEvent) => void
   onClickDelete: (index: number) => void
+  onClickFilter: (filter: Filter) => void
   onClickTodo: (index: number) => void
 }
 
 type Computed = {
-  // NOP
+  filteredTodoList: Data['todoList']
 }
 
 export default Vue.extend<Data, Methods, Computed>({
   layout: 'default-layout',
   data() {
     return {
+      filter: 'all',
       taskName: '',
       todoList: [
         {
@@ -87,6 +117,25 @@ export default Vue.extend<Data, Methods, Computed>({
         },
       ],
     }
+  },
+  computed: {
+    filteredTodoList() {
+      return this.todoList.filter((t) => {
+        switch (this.filter) {
+          case 'all':
+            return true
+
+          case 'todo':
+            return !t.done
+
+          case 'done':
+            return t.done
+
+          default:
+            return assertNever(this.filter)
+        }
+      })
+    },
   },
   mounted() {
     if (this.$refs.taskNameInput instanceof HTMLInputElement) {
@@ -114,6 +163,9 @@ export default Vue.extend<Data, Methods, Computed>({
         todo.done = !todo.done
       }
     },
+    onClickFilter(filter) {
+      this.filter = filter
+    },
   },
 })
 </script>
@@ -125,6 +177,27 @@ export default Vue.extend<Data, Methods, Computed>({
 
 .main {
   padding-top: 16px;
+}
+
+.actions {
+  padding-top: 16px;
+  display: flex;
+}
+
+.todo-list {
+  padding-top: 16px;
+}
+
+.filter-button {
+  cursor: pointer;
+}
+
+.filter-button:not(:first-child) {
+  margin-left: 8px;
+}
+
+.filter-button:disabled {
+  cursor: default;
 }
 
 .input::placeholder {
