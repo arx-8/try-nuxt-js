@@ -41,14 +41,14 @@
       </div>
       <div class="todo-list">
         <ul>
-          <li v-for="(todo, i) in filteredTodoList" :key="todo.id">
+          <li v-for="todo in filteredTodoList" :key="todo.id">
             <button
               class="delete-button"
-              @click.stop.prevent="onClickDelete(i)"
+              @click.stop.prevent="onClickDelete(todo.id)"
             >
               X
             </button>
-            <label class="todo-line" @click.stop.prevent="onClickTodo(i)">
+            <label class="todo-line" @click.stop.prevent="onClickTodo(todo.id)">
               <!-- `@click.stop=""` is workaround. Without this, when user click on the checkbox, the check status will be wrong. -->
               <input
                 v-model="todo.done"
@@ -71,11 +71,18 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 // organize-imports-ignore
 import Vue from 'vue'
+import { Brand } from 'utility-types'
 import { assertNever } from '@/types/utils'
+
+type TodoID = Brand<number, 'TodoID'>
+
+const generateTodoID = (): TodoID => {
+  return new Date().getTime() as TodoID
+}
 
 type Todo = {
   done: boolean
-  id: number
+  id: TodoID
   taskName: string
 }
 
@@ -89,9 +96,9 @@ type Data = {
 
 type Methods = {
   onAddTodo: (e: KeyboardEvent) => void
-  onClickDelete: (index: number) => void
+  onClickDelete: (id: TodoID) => void
   onClickFilter: (filter: Filter) => void
-  onClickTodo: (index: number) => void
+  onClickTodo: (id: TodoID) => void
 }
 
 type Computed = {
@@ -107,12 +114,12 @@ export default Vue.extend<Data, Methods, Computed>({
       todoList: [
         {
           done: false,
-          id: 1,
+          id: 1 as TodoID,
           taskName: 'the one',
         },
         {
           done: true,
-          id: 2,
+          id: 2 as TodoID,
           taskName: 'go out',
         },
       ],
@@ -149,16 +156,16 @@ export default Vue.extend<Data, Methods, Computed>({
 
       this.todoList.push({
         done: false,
-        id: new Date().getTime(),
+        id: generateTodoID(),
         taskName: this.taskName,
       })
       this.taskName = ''
     },
-    onClickDelete(index) {
-      this.todoList = this.todoList.filter((_, i) => i !== index)
+    onClickDelete(id) {
+      this.todoList = this.todoList.filter((t) => t.id !== id)
     },
-    onClickTodo(index) {
-      const todo = this.todoList[index]
+    onClickTodo(id) {
+      const todo = this.todoList.find((t) => t.id === id)
       if (todo != null) {
         todo.done = !todo.done
       }

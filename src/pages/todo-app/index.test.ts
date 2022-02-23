@@ -92,7 +92,7 @@ describe('todo-app', () => {
     const vm = wrapper.vm as FixMeAny
 
     // ## Act ##
-    vm.onClickDelete(0)
+    vm.onClickDelete(1)
 
     // ## Assert ##
     expect(vm.filteredTodoList).toMatchInlineSnapshot(`
