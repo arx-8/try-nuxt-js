@@ -39,28 +39,33 @@
           DONE
         </button>
       </div>
-      <div class="todo-list">
+      <div class="todo-list-wrapper">
         <ul>
-          <li v-for="todo in filteredTodoList" :key="todo.id">
-            <button
-              class="delete-button"
-              @click.stop.prevent="onClickDelete(todo.id)"
-            >
-              X
-            </button>
-            <label class="todo-line" @click.stop.prevent="onClickTodo(todo.id)">
-              <!-- `@click.stop=""` is workaround. Without this, when user click on the checkbox, the check status will be wrong. -->
-              <input
-                v-model="todo.done"
-                class="todo-line"
-                type="checkbox"
-                @click.stop=""
-              />
-              <span :class="{ done: todo.done }">
-                {{ todo.taskName }}
-              </span>
-            </label>
-          </li>
+          <transition-group name="todo-list">
+            <li v-for="todo in filteredTodoList" :key="todo.id">
+              <button
+                class="delete-button"
+                @click.stop.prevent="onClickDelete(todo.id)"
+              >
+                X
+              </button>
+              <label
+                class="todo-item"
+                @click.stop.prevent="onClickTodo(todo.id)"
+              >
+                <!-- `@click.stop=""` is workaround. Without this, when user click on the checkbox, the check status will be wrong. -->
+                <input
+                  v-model="todo.done"
+                  class="todo-item"
+                  type="checkbox"
+                  @click.stop=""
+                />
+                <span :class="{ done: todo.done }">
+                  {{ todo.taskName }}
+                </span>
+              </label>
+            </li>
+          </transition-group>
         </ul>
       </div>
     </main>
@@ -191,7 +196,7 @@ export default Vue.extend<Data, Methods, Computed>({
   display: flex;
 }
 
-.todo-list {
+.todo-list-wrapper {
   padding-top: 16px;
 }
 
@@ -215,9 +220,19 @@ li:not(:first-child) {
   padding-top: 8px;
 }
 
-.todo-line:hover {
+.todo-item:hover {
   cursor: pointer;
   opacity: 0.6;
+}
+
+.todo-list-enter-active,
+.todo-list-leave-active {
+  transition: opacity 0.3s;
+}
+
+.todo-list-enter,
+.todo-list-leave-to {
+  opacity: 0;
 }
 
 .delete-button {
