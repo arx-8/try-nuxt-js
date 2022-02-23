@@ -2,7 +2,7 @@
 
 ## Live demo
 
-https://e3c8001b.try-nuxt-js.pages.dev/
+https://try-nuxt-js.pages.dev/
 
 ## Build Setup
 
