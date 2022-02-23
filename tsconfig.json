@@ -40,6 +40,7 @@
     "**/*.test.ts",
     "**/*.vue",
     "jest.config.js",
+    "jest.setup.js",
     "nuxt.config.js",
     "stylelint.config.js"
   ]
