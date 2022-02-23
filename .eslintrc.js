@@ -63,6 +63,12 @@ const config = {
     'require-await': 0,
     'sort-destructure-keys/sort-destructure-keys': 2,
     'sort-keys-fix/sort-keys-fix': 2,
+    'vue/multi-word-component-names': [
+      'error',
+      {
+        ignores: ['index'],
+      },
+    ],
     yoda: [2, 'never', { onlyEquality: true }],
   },
 }

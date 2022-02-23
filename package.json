@@ -19,8 +19,8 @@
     "lint": "yarn lint:js && yarn lint:tsc && yarn lint:style && yarn lint:prettier",
     "lintfix": "prettier --write --list-different . && yarn lint:tsc && yarn lint:js --fix && yarn lint:style --fix",
     "start": "nuxt generate && nuxt start",
-    "test-ci": "jest --ci",
-    "test": "jest --watch",
+    "test-ci": "TZ=Asia/Tokyo jest --ci",
+    "test": "TZ=Asia/Tokyo jest --watch",
     "update-all": "npx --yes npm-check-updates@12.3.0 -u --reject \"/^(nuxt|vue|webpack|@nuxt/types)$/\""
   },
   "dependencies": {
