@@ -12,7 +12,6 @@ const config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '^vue$': 'vue/dist/vue.common.js',
-    '^~/(.*)$': '<rootDir>/src/$1',
   },
   setupFiles: ['./jest.setup.js'],
   testEnvironment: 'jsdom',
