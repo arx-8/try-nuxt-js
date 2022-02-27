@@ -16,58 +16,19 @@
           @keydown.enter="onAddTodo"
         />
       </div>
-      <div class="actions">
-        <button
-          class="filter-button"
-          :disabled="filter === 'all'"
-          @click.stop.prevent="onClickFilter('all')"
-        >
-          ALL
-        </button>
-        <button
-          class="filter-button"
-          :disabled="filter === 'todo'"
-          @click.stop.prevent="onClickFilter('todo')"
-        >
-          TODO
-        </button>
-        <button
-          class="filter-button"
-          :disabled="filter === 'done'"
-          @click.stop.prevent="onClickFilter('done')"
-        >
-          DONE
-        </button>
+      <div class="actions-wrapper">
+        <OrganismsFiltersBar
+          :current-key="filter"
+          :key-labels="filterKeyLabels"
+          :on-click="onClickFilter"
+        />
       </div>
       <div class="todo-list-wrapper">
-        <ul>
-          <transition-group name="todo-list">
-            <li v-for="todo in filteredTodoList" :key="todo.id">
-              <button
-                class="delete-button"
-                @click.stop.prevent="onClickDelete(todo.id)"
-              >
-                X
-              </button>
-              <label
-                class="todo-item"
-                @click.stop.prevent="onClickTodo(todo.id)"
-              >
-                <!-- `@click.stop=""` is workaround. Without this, when user click on the checkbox, the check status will be wrong. -->
-                <input
-                  class="todo-item"
-                  type="checkbox"
-                  :checked="todo.done"
-                  @click.stop=""
-                  @change.stop.prevent="onClickTodo(todo.id)"
-                />
-                <span :class="{ done: todo.done }">
-                  {{ todo.taskName }}
-                </span>
-              </label>
-            </li>
-          </transition-group>
-        </ul>
+        <OrganismsTodoList
+          :on-click-delete="onClickDelete"
+          :on-click-todo="onClickTodo"
+          :todo-list="filteredTodoList"
+        />
       </div>
     </main>
   </div>
@@ -81,6 +42,24 @@ import type { Computed, Data, Methods } from './types'
 
 export default Vue.extend<Data, Methods, Computed>({
   layout: 'default-layout',
+  data() {
+    return {
+      filterKeyLabels: [
+        {
+          key: 'all',
+          label: 'ALL',
+        },
+        {
+          key: 'todo',
+          label: 'TODO',
+        },
+        {
+          key: 'done',
+          label: 'DONE',
+        },
+      ],
+    }
+  },
   computed: {
     filteredTodoList() {
       return this.$accessor.todoApp.filteredTodoList
@@ -132,63 +111,15 @@ export default Vue.extend<Data, Methods, Computed>({
   padding-top: 16px;
 }
 
-.actions {
+.actions-wrapper {
   padding-top: 16px;
-  display: flex;
 }
 
 .todo-list-wrapper {
   padding-top: 16px;
 }
 
-.filter-button {
-  cursor: pointer;
-}
-
-.filter-button:not(:first-child) {
-  margin-left: 8px;
-}
-
-.filter-button:disabled {
-  cursor: default;
-}
-
 .input::placeholder {
   color: silver;
-}
-
-li:not(:first-child) {
-  padding-top: 8px;
-}
-
-.todo-item:hover {
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.todo-list-enter-active,
-.todo-list-leave-active {
-  transition: opacity 0.3s;
-}
-
-.todo-list-enter,
-.todo-list-leave-to {
-  opacity: 0;
-}
-
-.delete-button {
-  background: unset;
-  border: 1px solid;
-  border-radius: 8px;
-  font-size: 11px;
-}
-
-.delete-button:hover {
-  cursor: pointer;
-  background: pink;
-}
-
-.done {
-  text-decoration: line-through;
 }
 </style>

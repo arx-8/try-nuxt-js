@@ -1,7 +1,14 @@
 import { TodoID } from '@/domain/todo'
 import { Filter, State } from '@/store/todoApp'
 
-export type Data = Record<string, never>
+export type KeyLabel = {
+  key: Filter
+  label: string
+}
+
+export type Data = {
+  filterKeyLabels: KeyLabel[]
+}
 
 export type Methods = {
   onAddTodo: (e: KeyboardEvent) => void
