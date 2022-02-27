@@ -1,7 +1,9 @@
 // organize-imports-ignore
 import { mount } from '@vue/test-utils'
 import TodoApp from './index.vue'
-import { FixMeAny } from '@/types/utils'
+import type { Computed, Data, Methods } from './types'
+import type { WrapperVM } from '@/types/vue'
+import { TodoID } from '@/domain/todo'
 
 describe('todo-app', () => {
   beforeAll(() => {
@@ -15,7 +17,8 @@ describe('todo-app', () => {
     const wrapper = mount(TodoApp)
 
     // ## Assert ##
-    expect((wrapper.vm as FixMeAny).filteredTodoList).toMatchInlineSnapshot(`
+    const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
+    expect(vm.filteredTodoList).toMatchInlineSnapshot(`
       Array [
         Object {
           "done": false,
@@ -34,7 +37,7 @@ describe('todo-app', () => {
   it('filteredTodoList with filter', () => {
     // ## Arrange ##
     const wrapper = mount(TodoApp)
-    const vm = wrapper.vm as FixMeAny
+    const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
 
     // ## Act ##
     vm.filter = 'todo'
@@ -54,7 +57,7 @@ describe('todo-app', () => {
   it('onAddTodo', () => {
     // ## Arrange ##
     const wrapper = mount(TodoApp)
-    const vm = wrapper.vm as FixMeAny
+    const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
 
     // ## Act ##
     vm.taskName = 'new task'
@@ -89,10 +92,10 @@ describe('todo-app', () => {
   it('onClickDelete', () => {
     // ## Arrange ##
     const wrapper = mount(TodoApp)
-    const vm = wrapper.vm as FixMeAny
+    const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
 
     // ## Act ##
-    vm.onClickDelete(1)
+    vm.onClickDelete(1 as TodoID)
 
     // ## Assert ##
     expect(vm.filteredTodoList).toMatchInlineSnapshot(`

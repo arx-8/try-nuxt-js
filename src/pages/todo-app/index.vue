@@ -76,39 +76,9 @@
 /* eslint-disable sort-keys-fix/sort-keys-fix */
 // organize-imports-ignore
 import Vue from 'vue'
-import { Brand } from 'utility-types'
+import type { Computed, Data, Methods } from './types'
+import { TodoID, generateTodoID } from '@/domain/todo'
 import { assertNever } from '@/types/utils'
-
-type TodoID = Brand<number, 'TodoID'>
-
-const generateTodoID = (): TodoID => {
-  return new Date().getTime() as TodoID
-}
-
-type Todo = {
-  done: boolean
-  id: TodoID
-  taskName: string
-}
-
-type Filter = 'all' | 'todo' | 'done'
-
-type Data = {
-  filter: Filter
-  taskName: string
-  todoList: Todo[]
-}
-
-type Methods = {
-  onAddTodo: (e: KeyboardEvent) => void
-  onClickDelete: (id: TodoID) => void
-  onClickFilter: (filter: Filter) => void
-  onClickTodo: (id: TodoID) => void
-}
-
-type Computed = {
-  filteredTodoList: Data['todoList']
-}
 
 export default Vue.extend<Data, Methods, Computed>({
   layout: 'default-layout',
