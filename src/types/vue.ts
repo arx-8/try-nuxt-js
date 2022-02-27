@@ -9,4 +9,4 @@ export type WrapperVM<
   Methods = Record<string, never>,
   Computed = Record<string, never>,
   Props = Record<string, never>
-> = Data & Readonly<Methods> & Readonly<Computed> & Props & Wrapper<Vue>
+> = Data & Readonly<Methods> & Computed & Props & Wrapper<Vue>

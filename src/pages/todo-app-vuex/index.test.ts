@@ -1,20 +1,34 @@
 // organize-imports-ignore
-import { mount } from '@vue/test-utils'
+import { mount, Wrapper } from '@vue/test-utils'
+import { getAccessorFromStore } from 'typed-vuex'
+import Vuex, { Store } from 'vuex'
+import Vue from 'vue'
 import TodoApp from './index.vue'
 import type { Computed, Data, Methods } from './types'
 import type { WrapperVM } from '@/types/vue'
+import { store } from '@/store'
 import { TodoID } from '@/domain/todo'
 
-describe('todo-app', () => {
+describe('todo-app-vuex', () => {
   beforeAll(() => {
+    Vue.use(Vuex)
     jest.useFakeTimers()
     jest.setSystemTime(new Date(2021, 0, 1, 1, 1, 1))
   })
 
+  const createWrapper = (): Wrapper<Vue> => {
+    const storeForTesting = new Store(store)
+    return mount(TodoApp, {
+      mocks: {
+        $accessor: getAccessorFromStore(storeForTesting)(storeForTesting),
+      },
+    })
+  }
+
   it('filteredTodoList', () => {
     // ## Arrange ##
     // ## Act ##
-    const wrapper = mount(TodoApp)
+    const wrapper = createWrapper()
 
     // ## Assert ##
     const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
@@ -36,11 +50,11 @@ describe('todo-app', () => {
 
   it('filteredTodoList with filter', () => {
     // ## Arrange ##
-    const wrapper = mount(TodoApp)
+    const wrapper = createWrapper()
     const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
 
     // ## Act ##
-    vm.filter = 'todo'
+    vm.onClickFilter('todo')
 
     // ## Assert ##
     expect(vm.filteredTodoList).toMatchInlineSnapshot(`
@@ -56,11 +70,11 @@ describe('todo-app', () => {
 
   it('onAddTodo', () => {
     // ## Arrange ##
-    const wrapper = mount(TodoApp)
+    const wrapper = createWrapper()
     const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
 
     // ## Act ##
-    vm.taskName = 'new task'
+    vm.typingTaskName = 'new task'
     vm.onAddTodo(
       new KeyboardEvent('keydown', {
         keyCode: 13,
@@ -91,7 +105,7 @@ describe('todo-app', () => {
 
   it('onClickDelete', () => {
     // ## Arrange ##
-    const wrapper = mount(TodoApp)
+    const wrapper = createWrapper()
     const vm = wrapper.vm as unknown as WrapperVM<Data, Methods, Computed>
 
     // ## Act ##

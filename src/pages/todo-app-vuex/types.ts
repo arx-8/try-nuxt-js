@@ -1,12 +1,7 @@
-import type { Todo, TodoID } from '@/domain/todo'
+import { TodoID } from '@/domain/todo'
+import { Filter, State } from '@/store/todoApp'
 
-type Filter = 'all' | 'todo' | 'done'
-
-export type Data = {
-  filter: Filter
-  taskName: string
-  todoList: Todo[]
-}
+export type Data = Record<string, never>
 
 export type Methods = {
   onAddTodo: (e: KeyboardEvent) => void
@@ -16,5 +11,7 @@ export type Methods = {
 }
 
 export type Computed = {
-  filteredTodoList: Data['todoList']
+  filter: Filter
+  filteredTodoList: State['todoList']
+  typingTaskName: string
 }

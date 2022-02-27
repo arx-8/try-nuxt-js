@@ -13,6 +13,7 @@ const config = {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/stylelint
     '@nuxtjs/stylelint-module',
+    'nuxt-typed-vuex',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
