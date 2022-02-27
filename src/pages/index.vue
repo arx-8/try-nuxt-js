@@ -8,6 +8,9 @@
         <li class="item">
           <nuxt-link to="/todo-app">TODO App</nuxt-link>
         </li>
+        <li class="item">
+          <nuxt-link to="/todo-app-vuex">TODO App with Vuex</nuxt-link>
+        </li>
       </ul>
     </main>
   </div>

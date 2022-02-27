@@ -9,7 +9,7 @@
       <div>
         <input
           ref="taskNameInput"
-          v-model="taskName"
+          v-model="typingTaskName"
           class="input"
           placeholder="input your task!"
           type="text"
@@ -39,14 +39,11 @@
 // organize-imports-ignore
 import Vue from 'vue'
 import type { Computed, Data, Methods } from './types'
-import { TodoID, generateTodoID } from '@/domain/todo'
-import { assertNever } from '@/types/utils'
 
 export default Vue.extend<Data, Methods, Computed>({
   layout: 'default-layout',
   data() {
     return {
-      filter: 'all',
       filterKeyLabels: [
         {
           key: 'all',
@@ -61,38 +58,24 @@ export default Vue.extend<Data, Methods, Computed>({
           label: 'DONE',
         },
       ],
-      taskName: '',
-      todoList: [
-        {
-          done: false,
-          id: 1 as TodoID,
-          taskName: 'the one',
-        },
-        {
-          done: true,
-          id: 2 as TodoID,
-          taskName: 'go out',
-        },
-      ],
     }
   },
   computed: {
     filteredTodoList() {
-      return this.todoList.filter((t) => {
-        switch (this.filter) {
-          case 'all':
-            return true
-
-          case 'todo':
-            return !t.done
-
-          case 'done':
-            return t.done
-
-          default:
-            return assertNever(this.filter)
-        }
-      })
+      return this.$accessor.todoApp.filteredTodoList
+    },
+    typingTaskName: {
+      get() {
+        return this.$accessor.todoApp.typingTaskName
+      },
+      set(v) {
+        this.$accessor.todoApp.setTypingTaskName(v)
+      },
+    },
+    filter: {
+      get() {
+        return this.$accessor.todoApp.filter
+      },
     },
   },
   mounted() {
@@ -104,25 +87,16 @@ export default Vue.extend<Data, Methods, Computed>({
     onAddTodo(e: KeyboardEvent) {
       // prevent IME enter
       if (e.keyCode !== 13) return
-
-      this.todoList.push({
-        done: false,
-        id: generateTodoID(),
-        taskName: this.taskName,
-      })
-      this.taskName = ''
+      this.$accessor.todoApp.addTodo()
     },
     onClickDelete(id) {
-      this.todoList = this.todoList.filter((t) => t.id !== id)
+      this.$accessor.todoApp.deleteTodo(id)
     },
     onClickTodo(id) {
-      const todo = this.todoList.find((t) => t.id === id)
-      if (todo != null) {
-        todo.done = !todo.done
-      }
+      this.$accessor.todoApp.toggleTodo(id)
     },
     onClickFilter(filter) {
-      this.filter = filter
+      this.$accessor.todoApp.setFilter(filter)
     },
   },
 })
